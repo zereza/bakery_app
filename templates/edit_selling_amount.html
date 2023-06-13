@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}Me My Made Uploader{% endblock %}
+
+{% block content %}
+    <div class="d-flex justify-content-center container text-center m-3">
+    <form method="post" enctype="multipart/form-data">
+        <label for="quantity">
+            <h2>กรุณาใส่จำนวนของ {{ data.product_name }} ที่ต้องการ</h2>
+            <h2>ปัจจุบันมีจำนวน {{ data.amount }} ชิ้น</h2>
+        </label>
+        <hr>
+        <input type="number" id="quantity" name="quantity" value="{{ data.amount }}">
+        <button class="btn btn-success bg-gradient" type="submit">ยืนยัน</button>
+        <button onclick="window.location.href='{{ url_for('dashboard.dashboard1') }}'" class="btn btn-secondary bg-gradient" type="button">Back</button>
+    </form>
+    </div>
+
+{% endblock %}

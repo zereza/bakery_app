@@ -1,0 +1,81 @@
+{% extends "base_reload.html" %}
+{% block title %}ME MY MADE Order Page{% endblock %}
+
+{% block content %}
+    <form id="served" action="{{ url_for('dashboard.order_show_up') }}" method="post"">
+        <div class="d-flex p-3">
+            <h2 class="px-5">รายการอาหารที่รอเสิร์ฟ</h2>
+            <h2>Time {{ now.strftime('%H:%M:%S') }}</h2>
+        </div>
+
+        <div class="p-3">
+            <div class="d-flex flex-row-reverse py-2">
+                <button type="button" onclick="window.location.href='{{ url_for('dashboard.dashboard1') }}'"
+                        class="btn btn-secondary bg-gradient">Back
+                </button>
+            </div>
+            <table class="table table-primary table-striped table-hover align-middle px-2">
+                <thead class="table-dark">
+                <tr>
+                    <th scope="col">Table</th>
+                    <th scope="col">Order</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Waiting Time</th>
+                    <th scope="col">Ready</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for item in order %}
+                    {% if item.show_order == True %}
+                        <tr>
+                            <th scope="row">{{ item.table_no }} <input type="number" name="order_id"
+                                                                       value="{{ item.order_id }}"
+                                                                       hidden></th>
+                            <td>{{ item.order }}</td>
+                            <td>{{ item.amount }}</td>
+                            <td>{{ item.time.strftime('%H:%M:%S') }}</td>
+                            <td>
+                                <button class="btn btn-outline-success">พร้อมเสิร์ฟ</button>
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+                </tbody>
+
+            </table>
+            <div class="d-flex flex-row-reverse">
+                <button type="button" onclick="window.location.href='{{ url_for('dashboard.dashboard1') }}'"
+                        class="btn btn-secondary bg-gradient">Back
+                </button>
+            </div>
+        </div>
+        {#<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+                crossorigin="anonymous"></script>
+        <script type="text/javascript">
+
+            function showmin() {
+
+                var dt1 = new Date("2022-08-13 13:00:00");
+                alert(dt1);
+
+                var dt2 = new Date(Date.now());
+                alert(dt2);
+
+                var mindiff = diff_minutes(dt1, dt2);
+
+                alert(mindiff);
+            }
+
+            function diff_minutes(dt2, dt1) {
+
+                var diff = (dt2.getTime() - dt1.getTime()) / 1000;
+                diff /= 60;
+                return Math.abs(Math.round(diff));
+
+            }
+
+        </script>#}
+    </form>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Me My Made Uploader{% endblock %}
+
+{% block content %}
+    <h1>Upload new File</h1>
+        <form method='post' enctype='multipart/form-data'>
+          <input type='file' name='file1'>
+          <input type='submit'>
+        <button class="mx-3 btn btn-secondary" type="button" onclick="window.location.href='{{ url_for('dashboard.dashboard1') }}'">Back</button>
+        </form>
+
+{% endblock %}

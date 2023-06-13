@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+{% block title %}ME MY MADE Order Page{% endblock %}
+
+{% block content %}
+    <form id="order" action="{{ url_for('order.confirm_order') }}" method="post">
+        <div class="container-sm bg-gradient text-white py-3 px-4 top-header">
+            <h1>Me My Made Bakery House</h1>
+            <h2> Order Page</h2>
+        </div>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for msg in messages %}
+                    <p class="bg-info bg-gradient text-center p-2">{{ msg }}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="container-sm d-block text-black-50 bg-info py-3 px-4 sub-header mt-2">
+            <p>
+            <h1>ยินดีต้อนรับค่ะ คุณลูกค้าโต๊ะหมายเลข {{ session['order_table'] }}</h1>
+            <input type="number" name="order_table" value="{{ table }}" hidden>
+            <p>
+            <h3>กรุณากด + และ - เพื่อเลือกจำนวนอาหารของแต่ละเมนูที่ต้องการ แล้วกด "สั่งอาหาร" ด้านล่าง หรือ กด
+                "ล้างรายการ" เพื่อเริ่มต้นสั่งอาหารใหม่</h3>
+            <p>
+            <h3>หากท่านต้องการชำระเงิน สามารถกด "ชำระเงิน"
+                เพื่อชำระเงินด้วยบัตรเครดิตหรือพร้อมเพย์ได้ทันทีโดยไม่ต้องรอพนักงานค่ะ</h3>
+        </div>
+        {% for item in products %}
+            {% if item.amount > 0 %}
+                {% if item.catagory == 'Dessert' %}
+                    {% if item.product_id == 1 %}
+                        <div class="container-sm bg-gradient text-black-50 text-center p-1 my-2 catagories">
+                        <h3>{{ item.catagory }}</h3>
+                    {% endif %}
+                </div>
+                    <div class="container-sm p-3 bg-gradient text-black-50 {% if item.product_id == 1 %}item-background-top {% else %}item-background{% endif %}">
+                    <div class="row align-items-center g-1">
+                        <div class="col-6 py-2 px-3 text-center" id="left-background">
+                            <h4>{{ item.product_name }}</h4>
+                        </div>
+                        <div class="col-6 py-2 px-3 text-center" id="right-background">
+                            <h4>{{ item.product_name_th }}</h4>
+                        </div>
+                        <div class="py-2 text-center">
+                            <img src="/static/upload/{{ item.images_url }}" class="img-fluid item-img shadow"
+                                 alt="{{ item.name_en }}">
+                        </div>
+                        <div class="col-4 p-2 mb-4 text-center price bg-gradient shadow">
+                            <h2>{{ item.set_price }} บาท</h2>
+                        </div>
+                        <div class="col-4 h3 p-2 mb-4 text-center">
+                            <div style="width:40%;height:0;padding-bottom:39%;position:relative;">
+                                <iframe src="https://giphy.com/embed/psnI737HAze29DoGdF" width="100%" height="100%"
+                                        style="position:absolute" frameBorder="0" class="giphy-embed"
+                                        allowFullScreen></iframe>
+                            </div>
+                        </div>
+                        <div class="col-4 mb-4 p-1 text-end">
+                            <input class="align-middle h1" type="button" value="+" id="inc"
+                                   onclick="incNumber({{ item.product_id }})"/>
+                            <label class="align-middle h2 px-4 quantity bg-gradient shadow"
+                                   id="display{{ item.product_id }}">0</label>
+                            <input class="align-middle h1" type="button" value="-" id="dec"
+                                   onclick="decNumber({{ item.product_id }})"/>
+                            <input type="text" name="menu[]" value="{{ item.product_id }}" hidden="True">
+                            <input type="number" name="order_table[]" value="{{ incoming_order }}" hidden="True">
+                            <input id="number{{ item.product_id }}" type="number" name="order_number[]" hidden="True">
+                        </div>
+                        {% if item.product_id < 3 %}
+                            <hr class="bg-danger border-2 border-top border-danger {% if item.product_id == 4 %}mb-5{% endif %}">
+                        {% endif %}
+                    </div>
+                {% endif %}
+            {% endif %}
+        <div class="container-sm fixed-bottom">
+            <div class="row bg-dark text-center">
+                <div class="p-2 col-4">
+                    <button form="order" type="submit" name="button" class="btn btn-success">สั่งอาหาร</button>
+                </div>
+                <div class="p-2 col-4">
+                    <button form="order" type="reset" name="button" class="btn btn-danger"
+                            onclick="window.location.reload();">ล้างรายการ
+                    </button>
+                </div>
+                <div class="p-2 col-4">
+                    <button type="button" name="button" class="btn btn-primary">ชำระเงิน</button>
+                </div>
+            </div>
+        </div>
+        </div>
+
+            <!-- Optional JavaScript; choose one of the two! -->
+
+            <!-- Option 1: Bootstrap Bundle with Popper -->
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+                    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+                    crossorigin="anonymous"></script>
+            <script type="text/javascript">
+
+                function incNumber(item) {
+                    var i = document.getElementById("display" + item).innerHTML;
+                    if (i < 10) {
+                        i++;
+                    } else if (i = 10) {
+                        i = 0;
+                    }
+                    document.getElementById("display" + item).innerHTML = i
+                    document.getElementById("number" + item).value = i;
+
+                }
+
+                function decNumber(item) {
+                    var i = document.getElementById("display" + item).innerHTML;
+                    if (i > 0) {
+                        --i;
+                    } else if (i = 0) {
+                        i = 10;
+                    }
+                    document.getElementById("display" + item).innerHTML = i;
+                    document.getElementById("number" + item).value = i;
+
+                }
+
+            </script>
+            <!-- Option 2: Separate Popper and Bootstrap JS -->
+            <!--
+              <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+              <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+              -->
+
+        {% endfor %}
+    </form>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}Me My Made Products editor{% endblock %}
+
+{% block content %}
+    <h1>This is select page</h1>
+    {% for item in file %}
+        <form method="post" enctype="multipart/form-data">
+            <ul class="p-1">
+                <div class="d-flex flex-row align-content-center">
+                    <div class="d-flex col-4 align-content-center">
+                        <img class="img-thumbnail" src="/static/upload/{{ item }}" width="120">
+                    </div>
+                    <div class="d-inline-flex col-4 align-self-center">
+                        <label>{{ item }}</label>
+                        <input type="text" name="filename" value="{{ item }}" hidden>
+                    </div>
+                    <div class="col-2 align-self-center px-2">
+                        <button class="btn btn-success" type="submit">Choose Image</button>
+                    </div>
+                    <div class="col-2 align-self-center px-2">
+                        <button class="btn btn-danger" type="button" onclick="window.location.href='{{ url_for('dashboard.delete_image', file_delete=item) }}'">Delete Image</button>
+                    </div>
+                </div>
+            </ul>
+        <hr>
+        </form>
+    {% endfor %}
+{% endblock %}

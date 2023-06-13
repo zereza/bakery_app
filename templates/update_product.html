@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% block title %}Me My Made Products editor{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <form method="POST" enctype="multipart/form-data" novalidate>
+            <div class="row p-3">
+                <div class="col bg-light">
+                    <div class="row p-2 h2">
+                        Current Data
+                    </div>
+                    <div class="row p-2">
+                        {{ previous.catagory }}
+                    </div>
+                    <div class="row p-2">
+                        Name: {{ previous.product_name }}
+                    </div>
+                    <div class="row p-2">
+                        ชื่อ: {{ previous.product_name_th }}
+                    </div>
+                    <div class="row px-2 py-3">
+                        ราคาขาย: {{ previous.set_price }} บาท
+                    </div>
+                    <div class="row p-2">
+                        จำนวนที่มีจำหน่าย: {{ previous.amount }} ชิ้น
+                    </div>
+                    <div class="row px-2 pt-3 pb-2">
+                        ราคาโปรโมชั่น: {{ previous.selling_price }} บาท
+                    </div>
+                    <div class="row p-2">
+                    <div class="container d-flex">
+                        ตั้งเป็นสินค้าใหม่:
+                        {% if previous.new_product == True %}<img src="/static/images/correct.png" width="15" height="15">
+                        {% else %}<img src="/static/images/wrong.png" width="15" height="15">
+                        {% endif %}
+                    </div>
+                    </div>
+                    <div class="row-cols-auto p-2">
+                        ตั้งเป็นสินค้าแนะนำ:
+                        {% if previous.recommened == True %}
+                            <img src="/static/images/correct.png" width="15" height="15">
+                        {% else %}<img src="/static/images/wrong.png" width="15" height="15">
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="col item-background">
+                    <div class="row p-2 h2">
+                        Product Update
+                    </div>
+                    {% for item in form %}
+                        <div class="row p-2">
+                            {{ item }}
+                        </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for msg in messages %}
+                    <p class="bg-info bg-gradient text-center p-2">{{ msg }}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+            <div class="row text-center">
+                <div class="col-6">
+                    <button type="submit" class="btn btn-success bg-gradient">Update</button>
+                </div>
+                <div class="col-6">
+                    <button type="button" onclick="window.location.href='{{ url_for('dashboard.dashboard1') }}'"
+                            class="btn btn-secondary bg-gradient">Back
+                    </button>
+                </div>
+
+            </div>
+        </form>
+    </div>
+
+
+{% endblock %}

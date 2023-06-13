@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Me My Made Products editor{% endblock %}
+
+{% block content %}
+    <h1>This is register form</h1>
+    <form method="post" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        {{ form.username }}
+        {{ form.password }}
+        Admin : {{ form.is_admin }}
+        {{ form.submit }}
+    </form>
+    {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for msg in messages %}
+                    <p class="bg-info bg-gradient text-center p-2 mt-3">{{ msg }}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    <a href="{{ url_for("dashboard.login_system") }}">มี Account แล้ว ไปที่หน้า Login</a>
+{% endblock %}

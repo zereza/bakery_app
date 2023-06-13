@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}ME MY MADE Order Page{% endblock %}
+
+{% block content %}
+    <div>
+    <h2>ได้รับคำสั่งซื้อเรียบร้อยแล้วค่ะ กำลังดำเนินการเตรียมอาหาร หากท่านต้องการสั่งอาหารเพิ่มกรุณากดปุ่มด้านล่างนี้ </h2>
+    </div>
+    <div>
+    <button type="button" onclick="window.location.href='{{ url_for('order.incoming_order', table=session['order_table']) }}'">Click here</button>
+    </div>
+
+{% endblock %}

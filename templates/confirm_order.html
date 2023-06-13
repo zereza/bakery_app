@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}ME MY MADE Order Page{% endblock %}
+
+{% block content %}
+    <form method="post" id="confirm_order" action="{{ url_for('order.summary_order') }}">
+    <div class="sub-header h1 text-center mt-2">
+            รายการอาหารที่เลือก
+    </div>
+    <h1>Table no. {{ table }}</h1>
+    <input type="number" name="order_table" value="{{ session['order_table'] }}" hidden>
+    {% for item in incoming_order %}
+    {% if item['amount'] > 0 %}
+        <div class="row item-background px-1 py-3">
+        <div class="col-6 h2">
+            <label>{{ item['order'] }}</label>
+            <input type="number" name="menu[]" value="{{ item['menu'] }}" hidden>
+            <input type="text" name="order[]" value="{{ item['order'] }}" hidden>
+        </div>
+        <div class="col-6 text-end">
+            <label class="align-middle h2 px-4 bg-gradient">{{ item['amount'] }} ชิ้น</label>
+            <input type="number" name="amount[]" value="{{ item['amount'] }}" hidden>
+            <input type="number" name="set_price[]" value="{{ item['price'] }}" hidden>
+            <input type="number" name="dc_price[]" value="{{ item['discount_price'] }}" hidden>
+        </div>
+        </div>
+    {% endif %}
+    {% endfor %}
+    <div class="row text-center p-3">
+            <div class="col-6">
+                <button type="submit" class="btn btn-success">ยืนยันรายการ</button>
+            </div>
+            <div class="col-6">
+                <button class="btn btn-secondary" onclick="history.back()">กลับไปเลือกรายการ</button>
+            </div>
+        </div>
+    </form>
+{% endblock %}

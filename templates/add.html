@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% block title %}Me My Made Products editor{% endblock %}
+
+{% block content %}
+    <div class="top-header m-2 h1 text-center p-2">
+        Add Product
+    </div>
+    <form action="{{ url_for('dashboard.add_product') }}" method="POST" enctype="multipart/form-data" novalidate>
+        {{ form.csrf_token }}
+        <div class="container mt-3 d-inline-flex flex-row item-background">
+
+            <div class="d-flex flex-column m-3">
+                <div class="d-inline-flex p-2">
+                    Catagory
+                </div>
+                <div class="d-inline-flex p-2">
+                    Product Name
+                </div>
+                <div class="d-inline-flex p-2 mt-1">
+                    ชื่อภาษาไทย
+                </div>
+                <div class="d-inline-flex p-2 mt-1">
+                    ราคาขาย
+                </div>
+                <div class="d-inline-flex p-2 mt-2">
+                    จำนวนสินค้าที่มี
+                </div>
+                <div class="d-inline-flex p-2">
+                    สินค้าใหม่
+                </div>
+                <div class="d-inline-flex p-2">
+                    สินค้าแนะนำ
+                </div>
+            </div>
+
+
+            <div class="d-flex flex-column my-3 mx-5">
+                <div class="d-inline-flex p-2">
+                    {{ form.catagory }}
+                </div>
+                <div class="d-inline-flex p-2">
+                    {{ form.product_name }}
+                </div>
+                <div class="d-inline-flex p-2">
+                    {{ form.product_name_th }}
+                </div>
+                <div class="d-inline-flex p-2">
+                    {{ form.price }}
+                </div>
+                <div class="d-inline-flex p-2">
+                    {{ form.amount }}
+                </div>
+                <div class="d-inline-flex p-2 mt-1">
+                    {{ form.new }}
+                </div>
+                <div class="d-inline-flex p-2 mt-2">
+                    {{ form.recommended }}
+                </div>
+            </div>
+        </div>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for msg in messages %}
+                    <p class="bg-info bg-gradient text-center p-3">{{ msg }}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <div class="row text-center mt-3">
+            <div class="col-6">
+                <button type="submit" class="btn btn-success bg-gradient">Confirm</button>
+            </div>
+            <div class="col-6">
+                <button type="button" onclick="window.location.href='{{ url_for('dashboard.dashboard1') }}'"
+                        class="btn btn-secondary bg-gradient">Back
+                </button>
+            </div>
+        </div>
+    </form>
+
+{% endblock %}
